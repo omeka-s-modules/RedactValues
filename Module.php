@@ -53,9 +53,8 @@ class Module extends AbstractModule
             'rep.value.html',
             function (Event $event) {
                 $value = $event->getTarget();
-                $property = $value->property();
                 $html = $event->getParam('html');
-                $html = $this->redact($property->id(), $html);
+                $html = $this->redact($value, $html);
                 $event->setParam('html', $html);
             }
         );
@@ -66,7 +65,7 @@ class Module extends AbstractModule
                 $value = $event->getTarget();
                 $json = $event->getParam('json');
                 if (isset($json['@value'])) {
-                    $json['@value'] = $this->redact($json['property_id'], $json['@value']);
+                    $json['@value'] = $this->redact($value, $json['@value']);
                 }
                 $event->setParam('json', $json);
             }
@@ -76,7 +75,6 @@ class Module extends AbstractModule
             'rep.value.string',
             function (Event $event) {
                 $value = $event->getTarget();
-                $property = $value->property();
                 $string = $event->getParam('string');
                 $string = $this->redact($property->id(), $string);
                 $event->setParam('string', $string);
@@ -84,10 +82,16 @@ class Module extends AbstractModule
         );
     }
 
-    public function redact($propertyId, $subject)
+    public function redact($value, $subject)
     {
+        if ($value->resource()->userIsAllowed('update')) {
+            // Don't redact if user is allowed to update the resource.
+            return $subject;
+        }
         $redactions = $this->getRedactions();
+        $propertyId = $value->property()->id();
         if (!isset($redactions[$propertyId])) {
+            // No redction exists for this property.
             return $subject;
         }
         foreach ($redactions[$propertyId] as $redaction) {
