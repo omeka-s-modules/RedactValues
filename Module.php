@@ -54,31 +54,32 @@ class Module extends AbstractModule
             function (Event $event) {
                 $value = $event->getTarget();
                 $property = $value->property();
-                $html = $this->redact($property->id(), $event->getParam('html'));
+                $html = $event->getParam('html');
+                $html = $this->redact($property->id(), $html);
                 $event->setParam('html', $html);
             }
         );
         $sharedEventManager->attach(
             '*',
-            'rep.resource.json_output',
+            'rep.value.json',
             function (Event $event) {
-                if (!($event->getTarget() instanceof AbstractResourceEntityRepresentation)) {
-                    return;
+                $value = $event->getTarget();
+                $json = $event->getParam('json');
+                if (isset($json['@value'])) {
+                    $json['@value'] = $this->redact($json['property_id'], $json['@value']);
                 }
-                $jsonLd = json_decode($event->getParam('jsonLd'), true);
-                foreach ($jsonLd as $term => $values) {
-                    if (!is_array($values)) {
-                        continue;
-                    }
-                    foreach ($values as $index => $value) {
-                        if (!isset($value['@value'])) {
-                            continue;
-                        }
-                        $jsonLd[$term][$index]['@value'] = $this->redact($value['property_id'], $value['@value']);
-                    }
-                }
-                $jsonLd = json_encode($jsonLd);
-                $event->setParam('jsonLd', $jsonLd);
+                $event->setParam('json', $json);
+            }
+        );
+        $sharedEventManager->attach(
+            '*',
+            'rep.value.string',
+            function (Event $event) {
+                $value = $event->getTarget();
+                $property = $value->property();
+                $string = $event->getParam('string');
+                $string = $this->redact($property->id(), $string);
+                $event->setParam('string', $string);
             }
         );
     }
