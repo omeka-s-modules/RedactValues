@@ -34,7 +34,7 @@ const addRedaction = function(propertyId, pattern, replacement) {
 };
 $.each(redactions, function(propertyId, propertyRedactions) {
     $.each(propertyRedactions, function(index, propertyRedaction) {
-        addRedaction(propertyId, propertyRedaction[0], propertyRedaction[1]);
+        addRedaction(propertyId, propertyRedaction['pattern'], propertyRedaction['replacement']);
     });
 });
 $(document).ready(function() {

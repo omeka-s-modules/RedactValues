@@ -39,7 +39,10 @@ class Module extends AbstractModule
             if (empty($redaction['property_id'])) {
                 continue; // Property must be set
             }
-            $redactions[$redaction['property_id']][] = [$redaction['pattern'], $redaction['replacement']];
+            $redactions[$redaction['property_id']][] = [
+                'pattern' => $redaction['pattern'],
+                'replacement' => $redaction['replacement'],
+            ];
         }
         $this->getServiceLocator()
             ->get('Omeka\Settings')
@@ -95,9 +98,11 @@ class Module extends AbstractModule
             return $subject;
         }
         foreach ($redactions[$propertyId] as $redaction) {
-            $pattern = $redaction[0];
-            $replacement = $redaction[1];
-            $subject = preg_replace(sprintf('/%s/', $pattern), $replacement, $subject);
+            $subject = preg_replace(
+                sprintf('/%s/', $redaction['pattern']),
+                $redaction['replacement'],
+                $subject
+            );
         }
         return $subject;
     }
