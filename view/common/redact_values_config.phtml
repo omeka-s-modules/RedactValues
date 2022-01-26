@@ -6,10 +6,11 @@ echo sprintf(
 echo sprintf(
     '<span id="form-template" data-form-template="%s"></span>',
     $this->escapeHtml(sprintf(
-        '<div class="redaction-div">%s%s%s%s</div>',
+        '<div class="redaction-div">%s%s%s%s%s</div>',
         $this->formRow($formTemplate->get('redactions[__INDEX__][property_id]')),
         $this->formRow($formTemplate->get('redactions[__INDEX__][pattern]')),
         $this->formRow($formTemplate->get('redactions[__INDEX__][replacement]')),
+        $this->formRow($formTemplate->get('redactions[__INDEX__][allow]')),
         sprintf('<button type="button" class="remove-redaction">%s</button>', $this->translate('Remove'))
     ))
 );
@@ -23,18 +24,26 @@ const formTemplate = $('#form-template').data('formTemplate');
 const redactions = $('#redactions').data('redactions');
 const redactionsDiv = $('#redactions-div');
 const addRedactionButton = $('#add-redaction');
-const addRedaction = function(propertyId, pattern, replacement) {
+const addRedaction = function(propertyId, pattern, replacement, allow) {
     // Index redactions by random string.
     let randStr = Math.random().toString(36).substr(7);
     let formTemplateObj = $($.parseHTML(formTemplate.replaceAll('__INDEX__', randStr)));
     formTemplateObj.find('.property-id').val(propertyId);
     formTemplateObj.find('.pattern').val(pattern);
     formTemplateObj.find('.replacement').val(replacement);
+    $.each(allow, function(index, value) {
+        formTemplateObj.find(`.allow[value="${value}"]`).prop('checked', true);
+    });
     redactionsDiv.append(formTemplateObj);
 };
 $.each(redactions, function(propertyId, propertyRedactions) {
     $.each(propertyRedactions, function(index, propertyRedaction) {
-        addRedaction(propertyId, propertyRedaction['pattern'], propertyRedaction['replacement']);
+        addRedaction(
+            propertyId,
+            propertyRedaction['pattern'],
+            propertyRedaction['replacement'],
+            propertyRedaction['allow']
+        );
     });
 });
 $(document).ready(function() {

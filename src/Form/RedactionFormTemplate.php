@@ -41,5 +41,22 @@ class RedactionFormTemplate extends Form
                 'class' => 'replacement',
             ],
         ]);
+        // Note that global_admin, site_admin, and editor roles can update all
+        // resources, and therefore can view redacted values, so there's no
+        // reason to add them here.
+        $this->add([
+            'type' => LaminasElement\MultiCheckbox::class,
+            'name' => 'redactions[__INDEX__][allow]',
+            'options' => [
+                'label' => 'Allow', // @translate
+                'value_options' => [
+                    'author' => 'Author', // @translate
+                    'researcher' => 'Researcher', // @translate
+                ],
+            ],
+            'attributes' => [
+                'class' => 'allow',
+            ],
+        ]);
     }
 }

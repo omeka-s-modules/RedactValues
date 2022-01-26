@@ -15,6 +15,7 @@ use RedactValues\Form\RedactionFormTemplate;
 class Module extends AbstractModule
 {
     protected $redactions;
+    protected $role;
 
     public function getConfig()
     {
@@ -42,6 +43,7 @@ class Module extends AbstractModule
             $redactions[$redaction['property_id']][] = [
                 'pattern' => $redaction['pattern'],
                 'replacement' => $redaction['replacement'],
+                'allow' => $redaction['allow'] ?? [],
             ];
         }
         $this->getServiceLocator()
@@ -98,6 +100,10 @@ class Module extends AbstractModule
             return $subject;
         }
         foreach ($redactions[$propertyId] as $redaction) {
+            if (in_array($this->getRole(), $redaction['allow'])) {
+                // The current user's role is allowed to view redacted text.
+                continue;
+            }
             $subject = preg_replace(
                 sprintf('/%s/', $redaction['pattern']),
                 $redaction['replacement'],
@@ -115,5 +121,15 @@ class Module extends AbstractModule
         $settings = $this->getServiceLocator()->get('Omeka\Settings');
         $this->redactions = $settings->get('redact_values_redactions', []);
         return $this->redactions;
+    }
+
+    public function getRole()
+    {
+        if (isset($this->role)) {
+            return $this->role;
+        }
+        $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
+        $this->role = $user ? $user->getRole() : '';
+        return $this->role;
     }
 }
