@@ -1,15 +1,11 @@
 <?php
 namespace RedactValues;
 
-use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
 use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
-use Laminas\Form\Element;
 use Laminas\Mvc\Controller\AbstractController;
-use Laminas\Mvc\MvcEvent;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Renderer\PhpRenderer;
 use RedactValues\Form\RedactionFormTemplate;
 
