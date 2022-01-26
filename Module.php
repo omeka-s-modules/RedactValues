@@ -13,6 +13,7 @@ class Module extends AbstractModule
 {
     protected $redactions;
     protected $role;
+    protected $resourceIds = [];
 
     public function getConfig()
     {
@@ -38,6 +39,8 @@ class Module extends AbstractModule
                 continue; // Property must be set
             }
             $redactions[$redaction['property_id']][] = [
+                'resource_type' => $redaction['resource_type'],
+                'query' => $redaction['query'],
                 'pattern' => $redaction['pattern'],
                 'replacement' => $redaction['replacement'],
                 'allow' => $redaction['allow'] ?? [],
@@ -96,7 +99,8 @@ class Module extends AbstractModule
      */
     public function redact(ValueRepresentation $value, $text)
     {
-        if ($value->resource()->userIsAllowed('update')) {
+        $resource = $value->resource();
+        if ($resource->userIsAllowed('update')) {
             // Don't redact if user is allowed to update the resource.
             return $text;
         }
@@ -110,6 +114,14 @@ class Module extends AbstractModule
             if (in_array($this->getRole(), $redaction['allow'])) {
                 // Don't redact if the current user's role is allowed.
                 continue;
+            }
+            // An empty query is all resources, so there's no need to get the IDs.
+            if ($redaction['query']) {
+                $resourceIds = $this->getResourceIds($redaction['resource_type'], $redaction['query']);
+                if (!in_array($resource->id(), $resourceIds)) {
+                    // Don't redact if the resource is not in the query result.
+                    continue;
+                }
             }
             $text = preg_replace(
                 sprintf('/%s/', $redaction['pattern']),
@@ -148,5 +160,23 @@ class Module extends AbstractModule
         $user = $this->getServiceLocator()->get('Omeka\AuthenticationService')->getIdentity();
         $this->role = $user ? $user->getRole() : '';
         return $this->role;
+    }
+
+    /**
+     * Get the resource IDs for this resource type and query.
+     *
+     * @param string $resourceType items, item_sets, or media
+     * @param string $query The query string
+     * @return array An array of resource IDs
+     */
+    public function getResourceIds($resourceType, $query)
+    {
+        if (isset($this->resourceIds[$query])) {
+            return $this->resourceIds[$query];
+        }
+        parse_str($query, $queryArray);
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $this->resourceIds[$query] = $api->search($resourceType, $queryArray, ['returnScalar' => 'id'])->getContent();
+        return $this->resourceIds[$query];
     }
 }

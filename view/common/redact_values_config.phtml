@@ -21,10 +21,13 @@ const formTemplate = $('#form-template').data('formTemplate');
 const redactions = $('#redactions').data('redactions');
 const redactionsDiv = $('#redactions-div');
 const addRedactionButton = $('#add-redaction');
-const addRedaction = function(propertyId, pattern, replacement, allow) {
+const addRedaction = function(propertyId, resourceType, query, pattern, replacement, allow) {
     // Index redactions by random string.
     let randStr = Math.random().toString(36).substr(7);
     let formTemplateObj = $($.parseHTML(formTemplate.replaceAll('__INDEX__', randStr)));
+    // Populate the form.
+    formTemplateObj.find('.resource-type').val(resourceType);
+    prepareQuery(formTemplateObj.find('.query-form-element'), resourceType, query);
     formTemplateObj.find('.property-id').val(propertyId).chosen({
         allow_single_deselect: true,
         disable_search_threshold: 10,
@@ -38,10 +41,28 @@ const addRedaction = function(propertyId, pattern, replacement, allow) {
     });
     redactionsDiv.append(formTemplateObj);
 };
+// Prepare the query element. Code taken from asset/js/query-form.js.
+const prepareQuery = function(selectingElement, resourceType, query) {
+    const url = selectingElement.data('searchFiltersUrl');
+    $.get(`${url}?${query}`, function(data) {
+        selectingElement.find('.query-form-search-filters').html(data);
+    });
+    selectingElement.data('resourceType', resourceType);
+    selectingElement.data('query', query);
+    selectingElement.find('.query-form-query').val(query);
+    (query === selectingElement.data('query'))
+        ? selectingElement.find('.query-form-restore').addClass('inactive')
+        : selectingElement.find('.query-form-restore').removeClass('inactive');
+    (query)
+        ? selectingElement.find('.query-form-clear').removeClass('inactive')
+        : selectingElement.find('.query-form-clear').addClass('inactive');
+};
 $.each(redactions, function(propertyId, propertyRedactions) {
     $.each(propertyRedactions, function(index, propertyRedaction) {
         addRedaction(
             propertyId,
+            propertyRedaction['resource_type'],
+            propertyRedaction['query'],
             propertyRedaction['pattern'],
             propertyRedaction['replacement'],
             propertyRedaction['allow']
@@ -54,6 +75,12 @@ $(document).ready(function() {
     });
     redactionsDiv.on('click', '.remove-redaction', function(e) {
         $(this).closest('.redaction-div').remove();
+    });
+    redactionsDiv.on('change', '.resource-type', function(e) {
+        const thisSelect = $(this);
+        thisSelect.closest('.redaction-div')
+            .find('.query-form-element')
+            .data('resourceType', thisSelect.val());
     });
 });
 </script>

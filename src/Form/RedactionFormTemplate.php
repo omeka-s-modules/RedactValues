@@ -11,11 +11,40 @@ class RedactionFormTemplate extends Form
     {
         $this->remove('redactionformtemplate_csrf');
         $this->add([
+            'type' => LaminasElement\Select::class,
+            'name' => 'redactions[__INDEX__][resource_type]',
+            'options' => [
+                'label' => 'Resource type', // @translate
+                'info' => 'Select the resource type from which to redact text.', // @translate
+                'value_options' => [
+                    'items' => 'Items', // @translate
+                    'item_sets' => 'Item sets', // @translate
+                    'media' => 'Media', // @translate
+                ],
+            ],
+            'attributes' => [
+                'class' => 'resource-type',
+                'required' => true,
+            ],
+        ]);
+        $this->add([
+            'type' => OmekaElement\Query::class,
+            'name' => 'redactions[__INDEX__][query]',
+            'options' => [
+                'label' => 'Query',
+                'info' => 'Enter a query used to filter the resources from which to redact text.', // @translate
+            ],
+            'attributes' => [
+                // Deliberately not including a class because doing so would
+                // break the query element.
+            ],
+        ]);
+        $this->add([
             'type' => OmekaElement\PropertySelect::class,
             'name' => 'redactions[__INDEX__][property_id]',
             'options' => [
                 'label' => 'Property', // @translate
-                'info' => 'Select a property from which to redact text.', // @translate
+                'info' => 'Select the property from which to redact text.', // @translate
                 'empty_option' => '',
             ],
             'attributes' => [
