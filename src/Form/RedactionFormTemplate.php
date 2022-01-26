@@ -15,10 +15,13 @@ class RedactionFormTemplate extends Form
             'name' => 'redactions[__INDEX__][property_id]',
             'options' => [
                 'label' => 'Property', // @translate
-                'empty_option' => 'Select a property…', // @translate
+                'info' => 'Select a property from which to redact text.', // @translate
+                'empty_option' => '',
             ],
             'attributes' => [
                 'class' => 'property-id',
+                'required' => true,
+                'data-placeholder' => 'Select a property…', // @translate
             ],
         ]);
         $this->add([
@@ -26,6 +29,8 @@ class RedactionFormTemplate extends Form
             'name' => 'redactions[__INDEX__][pattern]',
             'options' => [
                 'label' => 'Pattern', // @translate
+                'info' => 'Enter the regular expression pattern that identifies the text that will be redacted. For information on regular expressions, see <a href="https://www.regular-expressions.info/" target="_blank">https://www.regular-expressions.info/</a>', // @translate
+                'escape_info' => false,
             ],
             'attributes' => [
                 'class' => 'pattern',
@@ -36,19 +41,21 @@ class RedactionFormTemplate extends Form
             'name' => 'redactions[__INDEX__][replacement]',
             'options' => [
                 'label' => 'Replacement', // @translate
+                'info' => 'Enter the text that will be used to replace the redacted text.', // @translate
             ],
             'attributes' => [
                 'class' => 'replacement',
             ],
         ]);
         // Note that global_admin, site_admin, and editor roles can update all
-        // resources, and therefore can view redacted values, so there's no
-        // reason to add them here.
+        // resources, and therefore can view redacted text, so there's no reason
+        // to add them here.
         $this->add([
             'type' => LaminasElement\MultiCheckbox::class,
             'name' => 'redactions[__INDEX__][allow]',
             'options' => [
                 'label' => 'Allow', // @translate
+                'info' => 'Allow users with the following roles to view redacted text. Note that any user with permission to update a resource can view its redacted text.', // @translate
                 'value_options' => [
                     'author' => 'Author', // @translate
                     'researcher' => 'Researcher', // @translate

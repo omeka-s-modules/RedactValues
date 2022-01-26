@@ -101,7 +101,7 @@ class Module extends AbstractModule
         }
         foreach ($redactions[$propertyId] as $redaction) {
             if (in_array($this->getRole(), $redaction['allow'])) {
-                // The current user's role is allowed to view redacted text.
+                // Don't redact if the current user's role is allowed.
                 continue;
             }
             $subject = preg_replace(

@@ -28,7 +28,12 @@ const addRedaction = function(propertyId, pattern, replacement, allow) {
     // Index redactions by random string.
     let randStr = Math.random().toString(36).substr(7);
     let formTemplateObj = $($.parseHTML(formTemplate.replaceAll('__INDEX__', randStr)));
-    formTemplateObj.find('.property-id').val(propertyId);
+    formTemplateObj.find('.property-id').val(propertyId).chosen({
+        allow_single_deselect: true,
+        disable_search_threshold: 10,
+        width: '100%',
+        include_group_label_in_selected: true,
+    });
     formTemplateObj.find('.pattern').val(pattern);
     formTemplateObj.find('.replacement').val(replacement);
     $.each(allow, function(index, value) {
