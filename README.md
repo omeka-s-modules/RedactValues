@@ -1,6 +1,6 @@
 # Redact Values
 
-An [Omeka S](https://omeka.org/s/) module for redacting values.
+An [Omeka S](https://omeka.org/s/) module for redacting property values.
 
 # Copyright
 

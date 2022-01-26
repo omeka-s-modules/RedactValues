@@ -2,6 +2,7 @@
 namespace RedactValues;
 
 use Omeka\Api\Representation\AbstractResourceEntityRepresentation;
+use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -53,6 +54,7 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
+        // Redact value HTML.
         $sharedEventManager->attach(
             '*',
             'rep.value.html',
@@ -63,6 +65,7 @@ class Module extends AbstractModule
                 $event->setParam('html', $html);
             }
         );
+        // Redact value JSON.
         $sharedEventManager->attach(
             '*',
             'rep.value.json',
@@ -75,6 +78,7 @@ class Module extends AbstractModule
                 $event->setParam('json', $json);
             }
         );
+        // Redact value string.
         $sharedEventManager->attach(
             '*',
             'rep.value.string',
@@ -87,32 +91,44 @@ class Module extends AbstractModule
         );
     }
 
-    public function redact($value, $subject)
+    /**
+     * Redact text.
+     *
+     * @param ValueRepresentation $value
+     * @param string $text The text to redact
+     * @return string The redacted text
+     */
+    public function redact(ValueRepresentation $value, $text)
     {
         if ($value->resource()->userIsAllowed('update')) {
             // Don't redact if user is allowed to update the resource.
-            return $subject;
+            return $text;
         }
         $redactions = $this->getRedactions();
         $propertyId = $value->property()->id();
         if (!isset($redactions[$propertyId])) {
             // No redction exists for this property.
-            return $subject;
+            return $text;
         }
         foreach ($redactions[$propertyId] as $redaction) {
             if (in_array($this->getRole(), $redaction['allow'])) {
                 // Don't redact if the current user's role is allowed.
                 continue;
             }
-            $subject = preg_replace(
+            $text = preg_replace(
                 sprintf('/%s/', $redaction['pattern']),
                 $redaction['replacement'],
-                $subject
+                $text
             );
         }
-        return $subject;
+        return $text;
     }
 
+    /**
+     * Get configured redactions.
+     *
+     * @return array
+     */
     public function getRedactions()
     {
         if (isset($this->redactions)) {
@@ -123,6 +139,11 @@ class Module extends AbstractModule
         return $this->redactions;
     }
 
+    /**
+     * Get the current user's role.
+     *
+     * @return string An empty string is no role (non logged in user)
+     */
     public function getRole()
     {
         if (isset($this->role)) {
