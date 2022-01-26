@@ -6,11 +6,8 @@ echo sprintf(
 echo sprintf(
     '<span id="form-template" data-form-template="%s"></span>',
     $this->escapeHtml(sprintf(
-        '<div class="redaction-div">%s%s%s%s%s</div>',
-        $this->formRow($formTemplate->get('redactions[__INDEX__][property_id]')),
-        $this->formRow($formTemplate->get('redactions[__INDEX__][pattern]')),
-        $this->formRow($formTemplate->get('redactions[__INDEX__][replacement]')),
-        $this->formRow($formTemplate->get('redactions[__INDEX__][allow]')),
+        '<div class="redaction-div">%s%s</div>',
+        $this->formCollection($formTemplate, false),
         sprintf('<button type="button" class="remove-redaction">%s</button>', $this->translate('Remove'))
     ))
 );
