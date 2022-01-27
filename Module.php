@@ -6,6 +6,7 @@ use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\Controller\AbstractController;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\View\Renderer\PhpRenderer;
 use RedactValues\Form\RedactionFormTemplate;
 
@@ -18,6 +19,27 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include sprintf('%s/config/module.config.php', __DIR__);
+    }
+
+    public function install(ServiceLocatorInterface $services)
+    {
+        $sql = <<<'SQL'
+CREATE TABLE redact_values_redaction (id INT UNSIGNED AUTO_INCREMENT NOT NULL, owner_id INT DEFAULT NULL, property_id INT NOT NULL, `label` VARCHAR(255) NOT NULL, resource_type SMALLINT NOT NULL, query LONGTEXT DEFAULT NULL, pattern LONGTEXT NOT NULL, replacement VARCHAR(255) NOT NULL, allow_roles LONGTEXT NOT NULL COMMENT '(DC2Type:json)', created DATETIME NOT NULL, modified DATETIME DEFAULT NULL, INDEX IDX_B4972C27E3C61F9 (owner_id), INDEX IDX_B4972C2549213EC (property_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+ALTER TABLE redact_values_redaction ADD CONSTRAINT FK_B4972C27E3C61F9 FOREIGN KEY (owner_id) REFERENCES user (id) ON DELETE SET NULL;
+ALTER TABLE redact_values_redaction ADD CONSTRAINT FK_B4972C2549213EC FOREIGN KEY (property_id) REFERENCES property (id) ON DELETE CASCADE;
+SQL;
+        $conn = $services->get('Omeka\Connection');
+        $conn->exec('SET FOREIGN_KEY_CHECKS=0;');
+        $conn->exec($sql);
+        $conn->exec('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
+    public function uninstall(ServiceLocatorInterface $services)
+    {
+        $conn = $services->get('Omeka\Connection');
+        $conn->exec('SET FOREIGN_KEY_CHECKS=0;');
+        $conn->exec('DROP TABLE IF EXISTS redact_values_redaction;');
+        $conn->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function getConfigForm(PhpRenderer $renderer)
