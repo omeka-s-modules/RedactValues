@@ -33,6 +33,9 @@ class RedactValuesRedactionAdapter extends AbstractEntityAdapter
 
     public function validateRequest(Request $request, ErrorStore $errorStore)
     {
+        if (isset($data['o:property']) && !isset($data['o:property']['o:id'])) {
+            $errorStore->addError('o:property', 'Invalid property format passed in request.'); // @translate
+        }
     }
 
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
@@ -44,12 +47,28 @@ class RedactValuesRedactionAdapter extends AbstractEntityAdapter
         if ($this->shouldHydrate($request, 'o:label')) {
             $entity->setLabel($request->getValue('o:label'));
         }
+        if ($this->shouldHydrate($request, 'o-module-redact-values:resource_type')) {
+            $entity->setResourceType($request->getValue('o-module-redact-values:resource_type'));
+        }
+        if ($this->shouldHydrate($request, 'o-module-redact-values:query')) {
+            $entity->setQuery($request->getValue('o-module-redact-values:query'));
+        }
+        if ($this->shouldHydrate($request, 'o:property')) {
+            $property = $request->getValue('o:property');
+            $entity->setProperty($this->getAdapter('properties')->findEntity($property['o:id']));
+        }
+        if ($this->shouldHydrate($request, 'o-module-redact-values:pattern')) {
+            $entity->setPattern($request->getValue('o-module-redact-values:pattern'));
+        }
+        if ($this->shouldHydrate($request, 'o-module-redact-values:replacement')) {
+            $entity->setReplacement($request->getValue('o-module-redact-values:replacement'));
+        }
+        if ($this->shouldHydrate($request, 'o-module-redact-values:allow_roles')) {
+            $entity->setAllowRoles($request->getValue('o-module-redact-values:allow_roles') ?? []);
+        }
     }
 
     public function validateEntity(EntityInterface $entity, ErrorStore $errorStore)
     {
-        if (!is_string($entity->getLabel()) || '' === $entity->getLabel()) {
-            $errorStore->addError('o:label', 'An import must have a label'); // @translate
-        }
     }
 }

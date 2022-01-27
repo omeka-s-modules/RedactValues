@@ -5,10 +5,8 @@ use Omeka\Api\Representation\ValueRepresentation;
 use Omeka\Module\AbstractModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
-use Laminas\Mvc\Controller\AbstractController;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use Laminas\View\Renderer\PhpRenderer;
-use RedactValues\Form\RedactionFormTemplate;
+use RedactValues\Entity\RedactValuesRedaction;
 
 class Module extends AbstractModule
 {
@@ -24,7 +22,7 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $services)
     {
         $sql = <<<'SQL'
-CREATE TABLE redact_values_redaction (id INT UNSIGNED AUTO_INCREMENT NOT NULL, owner_id INT DEFAULT NULL, property_id INT NOT NULL, `label` VARCHAR(255) NOT NULL, resource_type SMALLINT NOT NULL, query LONGTEXT DEFAULT NULL, pattern LONGTEXT NOT NULL, replacement VARCHAR(255) NOT NULL, allow_roles LONGTEXT NOT NULL COMMENT '(DC2Type:json)', created DATETIME NOT NULL, modified DATETIME DEFAULT NULL, INDEX IDX_B4972C27E3C61F9 (owner_id), INDEX IDX_B4972C2549213EC (property_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
+CREATE TABLE redact_values_redaction (id INT UNSIGNED AUTO_INCREMENT NOT NULL, owner_id INT DEFAULT NULL, property_id INT NOT NULL, `label` VARCHAR(255) NOT NULL, resource_type VARCHAR(255) NOT NULL, query LONGTEXT DEFAULT NULL, pattern LONGTEXT NOT NULL, replacement VARCHAR(255) NOT NULL, allow_roles LONGTEXT NOT NULL COMMENT '(DC2Type:json)', created DATETIME NOT NULL, modified DATETIME DEFAULT NULL, INDEX IDX_B4972C27E3C61F9 (owner_id), INDEX IDX_B4972C2549213EC (property_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
 ALTER TABLE redact_values_redaction ADD CONSTRAINT FK_B4972C27E3C61F9 FOREIGN KEY (owner_id) REFERENCES user (id) ON DELETE SET NULL;
 ALTER TABLE redact_values_redaction ADD CONSTRAINT FK_B4972C2549213EC FOREIGN KEY (property_id) REFERENCES property (id) ON DELETE CASCADE;
 SQL;
@@ -40,37 +38,6 @@ SQL;
         $conn->exec('SET FOREIGN_KEY_CHECKS=0;');
         $conn->exec('DROP TABLE IF EXISTS redact_values_redaction;');
         $conn->exec('SET FOREIGN_KEY_CHECKS=1;');
-    }
-
-    public function getConfigForm(PhpRenderer $renderer)
-    {
-        $formTemplate = $this->getServiceLocator()
-            ->get('FormElementManager')
-            ->get(RedactionFormTemplate::class);
-        return $renderer->partial('common/redact_values_config', [
-            'redactions' => $this->getRedactions(),
-            'formTemplate' => $formTemplate,
-        ]);
-    }
-
-    public function handleConfigForm(AbstractController $controller)
-    {
-        $redactions = [];
-        foreach ($controller->params()->fromPost('redactions') as $redaction) {
-            if (empty($redaction['property_id'])) {
-                continue; // Property must be set
-            }
-            $redactions[$redaction['property_id']][] = [
-                'resource_type' => $redaction['resource_type'],
-                'query' => $redaction['query'],
-                'pattern' => $redaction['pattern'],
-                'replacement' => $redaction['replacement'],
-                'allow' => $redaction['allow'] ?? [],
-            ];
-        }
-        $this->getServiceLocator()
-            ->get('Omeka\Settings')
-            ->set('redact_values_redactions', $redactions);
     }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
@@ -133,7 +100,7 @@ SQL;
             return $text;
         }
         foreach ($redactions[$propertyId] as $redaction) {
-            if (in_array($this->getRole(), $redaction['allow'])) {
+            if (in_array($this->getRole(), $redaction['allow_roles'])) {
                 // Don't redact if the current user's role is allowed.
                 continue;
             }
@@ -164,8 +131,19 @@ SQL;
         if (isset($this->redactions)) {
             return $this->redactions;
         }
-        $settings = $this->getServiceLocator()->get('Omeka\Settings');
-        $this->redactions = $settings->get('redact_values_redactions', []);
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $redactionEntities = $entityManager->getRepository(RedactValuesRedaction::class)->findAll();
+        $redactions = [];
+        foreach ($redactionEntities as $redactionEntity) {
+            $redactions[$redactionEntity->getProperty()->getId()][] = [
+                'resource_type' => $redactionEntity->getResourceType(),
+                'query' => $redactionEntity->getQuery(),
+                'pattern' => $redactionEntity->getPattern(),
+                'replacement' => $redactionEntity->getReplacement(),
+                'allow_roles' => $redactionEntity->getAllowRoles(),
+            ];
+        }
+        $this->redactions = $redactions;
         return $this->redactions;
     }
 

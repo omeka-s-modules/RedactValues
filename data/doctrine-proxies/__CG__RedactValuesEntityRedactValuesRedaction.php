@@ -66,10 +66,10 @@ class RedactValuesRedaction extends \RedactValues\Entity\RedactValuesRedaction i
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'owner', 'label', 'resourceType', 'resourceTypes', 'query', 'property', 'pattern', 'replacement', 'allowRoles', 'created', 'modified'];
+            return ['__isInitialized__', 'id', 'owner', 'label', 'resourceType', 'query', 'property', 'pattern', 'replacement', 'allowRoles', 'created', 'modified'];
         }
 
-        return ['__isInitialized__', 'id', 'owner', 'label', 'resourceType', 'resourceTypes', 'query', 'property', 'pattern', 'replacement', 'allowRoles', 'created', 'modified'];
+        return ['__isInitialized__', 'id', 'owner', 'label', 'resourceType', 'query', 'property', 'pattern', 'replacement', 'allowRoles', 'created', 'modified'];
     }
 
     /**
@@ -238,7 +238,7 @@ class RedactValuesRedaction extends \RedactValues\Entity\RedactValuesRedaction i
     /**
      * {@inheritDoc}
      */
-    public function setResourceType(int $resourceType): void
+    public function setResourceType(string $resourceType): void
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResourceType', [$resourceType]);
@@ -249,7 +249,7 @@ class RedactValuesRedaction extends \RedactValues\Entity\RedactValuesRedaction i
     /**
      * {@inheritDoc}
      */
-    public function getResourceType(): int
+    public function getResourceType(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResourceType', []);

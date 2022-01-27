@@ -2,24 +2,28 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# Translators:
+# Pols12 <poltron54@gmail.com>, 2022
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-27 11:26-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2022-01-26 02:01+0000\n"
+"Last-Translator: Pols12 <poltron54@gmail.com>, 2022\n"
+"Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: view/common/redact_values_config.phtml:17
 msgid "Add a redaction"
-msgstr ""
+msgstr "Ajouter une correction"
 
 #: view/redact-values/admin/redaction/browse.phtml:5
 msgid "Browse redactions"
@@ -85,27 +89,32 @@ msgstr ""
 
 #: src/Form/RedactionForm.php:64
 msgid "Select a property…"
-msgstr ""
+msgstr "Choisir une propriété"
 
 #: src/Form/RedactionForm.php:71
 msgid "Pattern"
-msgstr ""
+msgstr "Motif"
 
 #: src/Form/RedactionForm.php:72
 msgid ""
 "Enter the regular expression pattern that identifies the text that will be "
-"redacted. For information on regular expressions, see <a href=\"https://www."
-"regular-expressions.info/\" target=\"_blank\">https://www.regular-"
-"expressions.info/</a>"
+"redacted. For information on regular expressions, see <a "
+"href=\"https://www.regular-expressions.info/\" "
+"target=\"_blank\">https://www.regular-expressions.info/</a>"
 msgstr ""
+"Saisissez l’expression régulière qui identifie le texte à corriger. Vous "
+"trouverez plus d’informations sur les expressions régulières sur<a "
+"href=\"https://www.regular-expressions.info/\" "
+"target=\"_blank\">https://www.regular-expressions.info/</a>."
 
 #: src/Form/RedactionForm.php:83
 msgid "Replacement"
-msgstr ""
+msgstr "Texte de remplacement"
 
 #: src/Form/RedactionForm.php:84
 msgid "Enter the text that will be used to replace the redacted text."
 msgstr ""
+"Saisissez le texte qui sera utilisé pour remplacé le texte à corriger."
 
 #: src/Form/RedactionForm.php:97
 msgid "Allow roles"

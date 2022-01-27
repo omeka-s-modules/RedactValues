@@ -27,20 +27,27 @@ $this->htmlElement('body')->appendAttribute('class', 'redact-values redaction br
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $this->translate('Import'); ?></th>
+            <th><?php echo $this->translate('Redaction'); ?></th>
+            <th><?php echo $this->translate('Resource type'); ?></th>
+            <th><?php echo $this->translate('Property'); ?></th>
             <th><?php echo $this->translate('Owner'); ?></th>
         </tr>
     </thead>
     <tbody>
     <?php foreach ($redactions as $redaction): ?>
-    <?php $owner = $redaction->owner(); ?>
+    <?php
+    $owner = $redaction->owner();
+    $property = $redaction->property();
+    ?>
         <tr>
             <td>
-                <?php echo $this->hyperlink($redaction->label(), $redaction->url('show')); ?>
+                <?php echo $redaction->label(); ?>
                 <ul class="actions">
-                    <li><?php echo $import->link('', 'edit', ['class' => 'fa fa-pencil-alt', 'title' => $this->translate('Edit')]) ?></li>
+                    <li><?php echo $redaction->link('', 'edit', ['class' => 'fa fa-pencil-alt', 'title' => $this->translate('Edit')]) ?></li>
                 </ul>
             </td>
+            <td><?php echo $this->translate($redaction->resourceTypeLabel()); ?></td>
+            <td><?php echo $this->translate($redaction->property()->label()); ?></td>
             <td><?php echo $owner ? $owner->link($owner->name()) : ''; ?></td>
         </tr>
     <?php endforeach; ?>

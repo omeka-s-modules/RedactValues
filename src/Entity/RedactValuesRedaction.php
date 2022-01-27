@@ -71,32 +71,18 @@ class RedactValuesRedaction extends AbstractEntity
 
     /**
      * @Column(
-     *     type="smallint",
+     *     type="string",
      *     nullable=false
      * )
      */
     protected $resourceType;
 
-    const RESOURCE_TYPE_ITEMS = 0;
-    const RESOURCE_TYPE_ITEM_SETS = 1;
-    const RESOURCE_TYPE_MEDIA = 2;
-
-    protected $resourceTypes = [
-        self::RESOURCE_TYPE_ITEMS,
-        self::RESOURCE_TYPE_ITEM_SETS,
-        self::RESOURCE_TYPE_MEDIA,
-    ];
-
-    public function setResourceType(int $resourceType) : void
+    public function setResourceType(string $resourceType) : void
     {
-        if (!in_array($resourceType, $this->resourceTypes)) {
-            // Set an invalid resource type to self::RESOURCE_TYPE_ITEMS.
-            $resourceType = self::RESOURCE_TYPE_ITEMS;
-        }
         $this->resourceType = $resourceType;
     }
 
-    public function getResourceType() : int
+    public function getResourceType() : string
     {
         return $this->resourceType;
     }
