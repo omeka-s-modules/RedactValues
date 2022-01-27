@@ -103,7 +103,7 @@ SQL;
             function (Event $event) {
                 $value = $event->getTarget();
                 $string = $event->getParam('string');
-                $string = $this->redact($property->id(), $string);
+                $string = $this->redact($value, $string);
                 $event->setParam('string', $string);
             }
         );
