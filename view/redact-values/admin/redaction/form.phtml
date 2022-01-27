@@ -29,3 +29,15 @@ $form->prepare();
 <?php if ($redaction): ?>
 <?php echo $this->deleteConfirm($redaction, $this->translate('redaction')); ?>
 <?php endif; ?>
+
+<script>
+$(document).ready(function() {
+    const resourceTypeSelect = $('#redact-values-resource-type');
+    // Prepare the query element when resource type is changed.
+    resourceTypeSelect.on('change', function(e) {
+        $('.query-form-element').data('resourceType', resourceTypeSelect.val());
+        Omeka.closeSidebar($('#query-sidebar-edit'));
+        Omeka.closeSidebar($('#query-sidebar-preview'));
+    });
+});
+</script>
