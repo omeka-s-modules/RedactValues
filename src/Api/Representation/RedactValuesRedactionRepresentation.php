@@ -13,13 +13,14 @@ class RedactValuesRedactionRepresentation extends AbstractEntityRepresentation
     public function getJsonLd()
     {
         $owner = $this->owner();
+        $pattern = $this->pattern();
         $modified = $this->modified();
         return [
             'o:owner' => $owner ? $owner->getReference() : null,
             'o:label' => $this->label(),
             'o-module-redact-values:resource_type' => $this->resourceType(),
             'o-module-redact-values:query' => $this->query(),
-            'o-module-redact-values:pattern' => $this->pattern(),
+            'o-module-redact-values:pattern' => $pattern ? $pattern->getReference() : null,
             'o-module-redact-values:replacement' => $this->replacement(),
             'o-module-redact-values:allow_roles' => $this->allowRoles(),
             'o:property' => $this->property(),
@@ -69,7 +70,7 @@ class RedactValuesRedactionRepresentation extends AbstractEntityRepresentation
 
     public function pattern()
     {
-        return $this->resource->getPattern();
+        return $this->getAdapter('redact_values_patterns')->getRepresentation($this->resource->getPattern());
     }
 
     public function replacement()

@@ -1,0 +1,63 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'redact-values pattern browse');
+?>
+
+<?php echo $this->pageTitle($this->translate('Browse patterns'), 1, $this->translate('Redact Values')); ?>
+
+<div id="page-actions">
+    <?php echo $this->hyperlink($this->translate('Add pattern'), $this->url('admin/redact-values-pattern', ['action' => 'add'], true), ['class' => 'button']); ?>
+</div>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->sortSelector([
+    [
+        'label' => $this->translate('Date created'),
+        'value' => 'created',
+    ],
+    [
+        'label' => $this->translate('Label'),
+        'value' => 'label',
+    ],
+]); ?>
+</div>
+
+<?php if ($patterns): ?>
+
+<table class="tablesaw" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th><?php echo $this->translate('Pattern'); ?></th>
+            <th><?php echo $this->translate('Owner'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($patterns as $pattern): ?>
+    <?php
+    $owner = $pattern->owner();
+    ?>
+        <tr>
+            <td>
+                <?php echo $pattern->label(); ?>
+                <ul class="actions">
+                    <li><?php echo $pattern->link('', 'edit', ['class' => 'fa fa-pencil-alt', 'title' => $this->translate('Edit')]) ?></li>
+                </ul>
+            </td>
+            <td><?php echo $owner ? $owner->link($owner->name()) : $this->translate('[n/a]'); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+
+<?php else: ?>
+<div class="no-resources">
+    <p><?php echo sprintf(
+        $this->translate('No patterns found. %s'),
+        $this->hyperlink($this->translate('Add a new pattern.'), $this->url('admin/redact-values-pattern', ['action' => 'add'], true))
+    ); ?></p>
+</div>
+<?php endif; ?>

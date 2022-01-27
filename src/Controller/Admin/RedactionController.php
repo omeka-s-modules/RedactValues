@@ -31,6 +31,7 @@ class RedactionController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $formData['o:property'] = ['o:id' => $formData['o:property']];
+                $formData['o-module-redact-values:pattern'] = ['o:id' => $formData['o-module-redact-values:pattern']];
                 $response = $this->api($form)->create('redact_values_redactions', $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Redaction successfully added.'); // @translate
@@ -58,6 +59,7 @@ class RedactionController extends AbstractActionController
             if ($form->isValid()) {
                 $formData = $form->getData();
                 $formData['o:property'] = ['o:id' => $formData['o:property']];
+                $formData['o-module-redact-values:pattern'] = ['o:id' => $formData['o-module-redact-values:pattern']];
                 $response = $this->api($form)->update('redact_values_redactions', $redaction->id(), $formData);
                 if ($response) {
                     $this->messenger()->addSuccess('Redaction successfully edited.');
@@ -69,6 +71,7 @@ class RedactionController extends AbstractActionController
         } else {
             $data = $redaction->getJsonLd();
             $data['o:property'] = $data['o:property'] ? $data['o:property']->id() : null;
+            $data['o-module-redact-values:pattern'] = $data['o-module-redact-values:pattern'] ? $data['o-module-redact-values:pattern']->id() : null;
             $form->setData($data);
         }
 

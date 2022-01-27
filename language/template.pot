@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-27 11:26-0500\n"
+"POT-Creation-Date: 2022-01-27 15:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: view/common/redact_values_config.phtml:17
-msgid "Add a redaction"
+#: view/redact-values/admin/pattern/browse.phtml:5
+msgid "Browse patterns"
 msgstr ""
 
-#: view/redact-values/admin/redaction/browse.phtml:5
-msgid "Browse redactions"
-msgstr ""
-
+#: view/redact-values/admin/pattern/browse.phtml:5
+#: view/redact-values/admin/pattern/form.phtml:11
+#: view/redact-values/admin/pattern/form.phtml:13
 #: view/redact-values/admin/redaction/browse.phtml:5
 #: view/redact-values/admin/redaction/form.phtml:11
 #: view/redact-values/admin/redaction/form.phtml:13
 msgid "Redact Values"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:8
+#: view/redact-values/admin/pattern/form.phtml:13
+msgid "Add pattern"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:15
+#: view/redact-values/admin/redaction/browse.phtml:15
+msgid "Date created"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:30
+#: view/redact-values/admin/redaction/browse.phtml:33
+msgid "Pattern"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:46
+#: view/redact-values/admin/redaction/browse.phtml:53
+msgid "[n/a]"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:59
+#, php-format
+msgid "No patterns found. %s"
+msgstr ""
+
+#: view/redact-values/admin/pattern/browse.phtml:60
+msgid "Add a new pattern."
+msgstr ""
+
+#: view/redact-values/admin/pattern/form.phtml:11
+msgid "Edit pattern"
+msgstr ""
+
+#: view/redact-values/admin/pattern/form.phtml:30
+msgid "pattern"
+msgstr ""
+
+#: view/redact-values/admin/redaction/browse.phtml:5
+msgid "Browse redactions"
 msgstr ""
 
 #: view/redact-values/admin/redaction/browse.phtml:8
@@ -36,20 +76,16 @@ msgstr ""
 msgid "Add redaction"
 msgstr ""
 
-#: view/redact-values/admin/redaction/browse.phtml:15
-msgid "Date created"
-msgstr ""
-
 #: view/redact-values/admin/redaction/browse.phtml:30
 msgid "Redaction"
 msgstr ""
 
-#: view/redact-values/admin/redaction/browse.phtml:64
+#: view/redact-values/admin/redaction/browse.phtml:66
 #, php-format
 msgid "No redactions found. %s"
 msgstr ""
 
-#: view/redact-values/admin/redaction/browse.phtml:65
+#: view/redact-values/admin/redaction/browse.phtml:67
 msgid "Add a new redaction."
 msgstr ""
 
@@ -61,8 +97,32 @@ msgstr ""
 msgid "redaction"
 msgstr ""
 
+#: config/module.config.php:52
+msgid "Redactions"
+msgstr ""
+
+#: config/module.config.php:74
+msgid "Patterns"
+msgstr ""
+
 #: src/Api/Adapter/RedactValuesRedactionAdapter.php:37
 msgid "Invalid property format passed in request."
+msgstr ""
+
+#: src/Api/Adapter/RedactValuesRedactionAdapter.php:40
+msgid "Invalid pattern format passed in request."
+msgstr ""
+
+#: src/Form/PatternForm.php:17
+msgid "Enter the label of this pattern."
+msgstr ""
+
+#: src/Form/PatternForm.php:29
+msgid ""
+"Enter the regular expression pattern that identifies the sequence of "
+"characters that will be redacted. For information on regular expressions, "
+"see <a href=\"https://www.regular-expressions.info/\" target=\"_blank"
+"\">https://www.regular-expressions.info/</a>"
 msgstr ""
 
 #: src/Form/RedactionForm.php:17
@@ -73,55 +133,59 @@ msgstr ""
 msgid "Select the resource type from which to redact text."
 msgstr ""
 
-#: src/Form/RedactionForm.php:46
+#: src/Form/RedactionForm.php:47
 msgid ""
 "Enter a query used to filter the resources from which to redact text. No "
 "query means all resources of the specified resource type."
 msgstr ""
 
-#: src/Form/RedactionForm.php:57
+#: src/Form/RedactionForm.php:58
 msgid "Select the property from which to redact text."
 msgstr ""
 
-#: src/Form/RedactionForm.php:64
+#: src/Form/RedactionForm.php:65
 msgid "Select a property…"
 msgstr ""
 
-#: src/Form/RedactionForm.php:71
-msgid "Pattern"
+#: src/Form/RedactionForm.php:73
+msgid "Select the pattern to use when redacting text."
 msgstr ""
 
-#: src/Form/RedactionForm.php:72
-msgid ""
-"Enter the regular expression pattern that identifies the text that will be "
-"redacted. For information on regular expressions, see <a href=\"https://www."
-"regular-expressions.info/\" target=\"_blank\">https://www.regular-"
-"expressions.info/</a>"
+#: src/Form/RedactionForm.php:86
+msgid "Select a pattern…"
 msgstr ""
 
-#: src/Form/RedactionForm.php:83
+#: src/Form/RedactionForm.php:93
 msgid "Replacement"
 msgstr ""
 
-#: src/Form/RedactionForm.php:84
+#: src/Form/RedactionForm.php:94
 msgid "Enter the text that will be used to replace the redacted text."
 msgstr ""
 
-#: src/Form/RedactionForm.php:97
+#: src/Form/RedactionForm.php:107
 msgid "Allow roles"
 msgstr ""
 
-#: src/Form/RedactionForm.php:98
+#: src/Form/RedactionForm.php:108
 msgid ""
 "Allow users with the following roles to view redacted text. Note that any "
 "user with permission to update a resource can automatically view its "
 "redacted text."
 msgstr ""
 
-#: src/Controller/Admin/RedactionController.php:36
+#: src/Controller/Admin/PatternController.php:35
+msgid "Pattern successfully added."
+msgstr ""
+
+#: src/Controller/Admin/PatternController.php:87
+msgid "Pattern successfully deleted."
+msgstr ""
+
+#: src/Controller/Admin/RedactionController.php:37
 msgid "Redaction successfully added."
 msgstr ""
 
-#: src/Controller/Admin/RedactionController.php:90
+#: src/Controller/Admin/RedactionController.php:93
 msgid "Redaction successfully deleted."
 msgstr ""

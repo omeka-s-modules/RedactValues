@@ -19,7 +19,7 @@ $form->prepare();
     <?php if ($redaction): ?>
     <a href="#" id="delete-button" class="delete button"><?php echo $this->translate('Delete'); ?></a>
     <?php endif; ?>
-    <?php echo $this->hyperlink($this->translate('Cancel'), $this->url(null, ['action' => 'browse'], true), ['class' => 'button']); ?>
+    <?php echo $this->hyperlink($this->translate('Cancel'), $this->url('admin/redact-values-redaction', ['action' => 'browse'], true), ['class' => 'button']); ?>
     <input type="submit" value="<?php echo $this->escapeHtml($this->translate('Submit')); ?>">
 </div>
 

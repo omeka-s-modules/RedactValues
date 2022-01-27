@@ -1,0 +1,31 @@
+<?php
+if ($pattern) {
+    $this->htmlElement('body')->appendAttribute('class', 'redact-values pattern edit');
+} else {
+    $this->htmlElement('body')->appendAttribute('class', 'redact-values pattern add');
+}
+$form->prepare();
+?>
+
+<?php if ($pattern): ?>
+<?php echo $this->pageTitle($this->translate('Edit pattern'), 1, $this->translate('Redact Values'), $pattern->label()); ?>
+<?php else: ?>
+<?php echo $this->pageTitle($this->translate('Add pattern'), 1, $this->translate('Redact Values')); ?>
+<?php endif; ?>
+
+<?php echo $this->form()->openTag($form); ?>
+
+<div id="page-actions">
+    <?php if ($pattern): ?>
+    <a href="#" id="delete-button" class="delete button"><?php echo $this->translate('Delete'); ?></a>
+    <?php endif; ?>
+    <?php echo $this->hyperlink($this->translate('Cancel'), $this->url('admin/redact-values-pattern', ['action' => 'browse'], true), ['class' => 'button']); ?>
+    <input type="submit" value="<?php echo $this->escapeHtml($this->translate('Submit')); ?>">
+</div>
+
+<?php echo $this->formCollection($form, false); ?>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php if ($pattern): ?>
+<?php echo $this->deleteConfirm($pattern, $this->translate('pattern')); ?>
+<?php endif; ?>

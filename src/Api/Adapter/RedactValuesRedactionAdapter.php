@@ -36,6 +36,9 @@ class RedactValuesRedactionAdapter extends AbstractEntityAdapter
         if (isset($data['o:property']) && !isset($data['o:property']['o:id'])) {
             $errorStore->addError('o:property', 'Invalid property format passed in request.'); // @translate
         }
+        if (isset($data['o-module-redact-values:pattern']) && !isset($data['o-module-redact-values:pattern']['o:id'])) {
+            $errorStore->addError('o-module-redact-values:pattern', 'Invalid pattern format passed in request.'); // @translate
+        }
     }
 
     public function hydrate(Request $request, EntityInterface $entity, ErrorStore $errorStore)
@@ -58,7 +61,8 @@ class RedactValuesRedactionAdapter extends AbstractEntityAdapter
             $entity->setProperty($this->getAdapter('properties')->findEntity($property['o:id']));
         }
         if ($this->shouldHydrate($request, 'o-module-redact-values:pattern')) {
-            $entity->setPattern($request->getValue('o-module-redact-values:pattern'));
+            $pattern = $request->getValue('o-module-redact-values:pattern');
+            $entity->setPattern($this->getAdapter('redact_values_patterns')->findEntity($pattern['o:id']));
         }
         if ($this->shouldHydrate($request, 'o-module-redact-values:replacement')) {
             $entity->setReplacement($request->getValue('o-module-redact-values:replacement'));

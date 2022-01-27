@@ -131,19 +131,22 @@ class RedactValuesRedaction extends AbstractEntity
     }
 
     /**
-     * @Column(
-     *     type="text",
-     *     nullable=false
+     * @ManyToOne(
+     *     targetEntity="RedactValues\Entity\RedactValuesPattern"
+     * )
+     * @JoinColumn(
+     *     nullable=true,
+     *     onDelete="SET NULL"
      * )
      */
     protected $pattern;
 
-    public function setPattern(string $pattern) : void
+    public function setPattern(?RedactValuesPattern $pattern) : void
     {
         $this->pattern = $pattern;
     }
 
-    public function getPattern() : ?string
+    public function getPattern() : ?RedactValuesPattern
     {
         return $this->pattern;
     }

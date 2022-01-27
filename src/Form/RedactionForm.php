@@ -35,6 +35,7 @@ class RedactionForm extends Form
             ],
             'attributes' => [
                 'id' => 'redact-values-resource-type',
+                'class' => 'chosen-select',
                 'required' => true,
             ],
         ]);
@@ -65,15 +66,24 @@ class RedactionForm extends Form
             ],
         ]);
         $this->add([
-            'type' => LaminasElement\Textarea::class,
+            'type' => OmekaElement\ResourceSelect::class,
             'name' => 'o-module-redact-values:pattern',
             'options' => [
                 'label' => 'Pattern', // @translate
-                'info' => 'Enter the regular expression pattern that identifies the text that will be redacted. For information on regular expressions, see <a href="https://www.regular-expressions.info/" target="_blank">https://www.regular-expressions.info/</a>', // @translate
-                'escape_info' => false,
+                'info' => 'Select the pattern to use when redacting text.', // @translate
+                'empty_option' => '',
+                'resource_value_options' => [
+                    'resource' => 'redact_values_patterns',
+                    'option_text_callback' => function ($pattern) {
+                        return $pattern->label();
+                    },
+                ],
             ],
             'attributes' => [
                 'id' => 'redact-values-pattern',
+                'class' => 'chosen-select',
+                'required' => true,
+                'data-placeholder' => 'Select a pattern…', // @translate
             ],
         ]);
         $this->add([
