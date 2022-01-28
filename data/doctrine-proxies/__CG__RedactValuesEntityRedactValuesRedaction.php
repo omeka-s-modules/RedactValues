@@ -260,7 +260,7 @@ class RedactValuesRedaction extends \RedactValues\Entity\RedactValuesRedaction i
     /**
      * {@inheritDoc}
      */
-    public function setQuery(?string $query): void
+    public function setQuery(string $query): void
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setQuery', [$query]);
@@ -271,7 +271,7 @@ class RedactValuesRedaction extends \RedactValues\Entity\RedactValuesRedaction i
     /**
      * {@inheritDoc}
      */
-    public function getQuery(): ?string
+    public function getQuery(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuery', []);

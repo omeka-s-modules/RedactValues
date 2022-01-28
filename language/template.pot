@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-27 15:10-0500\n"
+"POT-Creation-Date: 2022-01-28 13:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,11 +113,11 @@ msgstr ""
 msgid "Invalid pattern format passed in request."
 msgstr ""
 
-#: src/Form/PatternForm.php:17
+#: src/Form/PatternForm.php:16
 msgid "Enter the label of this pattern."
 msgstr ""
 
-#: src/Form/PatternForm.php:29
+#: src/Form/PatternForm.php:28
 msgid ""
 "Enter the regular expression pattern that identifies the sequence of "
 "characters that will be redacted. For information on regular expressions, "

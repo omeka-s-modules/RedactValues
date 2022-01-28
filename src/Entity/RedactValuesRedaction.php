@@ -90,21 +90,17 @@ class RedactValuesRedaction extends AbstractEntity
     /**
      * @Column(
      *     type="text",
-     *     nullable=true
+     *     nullable=false
      * )
      */
     protected $query;
 
-    public function setQuery(?string $query) : void
+    public function setQuery(string $query) : void
     {
-        if ('' === $query) {
-            // Set an empty query to null.
-            $query = null;
-        }
         $this->query = $query;
     }
 
-    public function getQuery() : ?string
+    public function getQuery() : string
     {
         return $this->query;
     }

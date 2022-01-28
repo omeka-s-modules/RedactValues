@@ -54,7 +54,7 @@ class RedactValuesRedactionAdapter extends AbstractEntityAdapter
             $entity->setResourceType($request->getValue('o-module-redact-values:resource_type'));
         }
         if ($this->shouldHydrate($request, 'o-module-redact-values:query')) {
-            $entity->setQuery($request->getValue('o-module-redact-values:query'));
+            $entity->setQuery(trim($request->getValue('o-module-redact-values:query')));
         }
         if ($this->shouldHydrate($request, 'o:property')) {
             $property = $request->getValue('o:property');

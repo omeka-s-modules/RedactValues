@@ -38,7 +38,7 @@ $this->htmlElement('body')->appendAttribute('class', 'redact-values pattern brow
     ?>
         <tr>
             <td>
-                <?php echo $pattern->label(); ?>
+                <?php echo $this->translate($pattern->label()); ?>
                 <ul class="actions">
                     <li><?php echo $pattern->link('', 'edit', ['class' => 'fa fa-pencil-alt', 'title' => $this->translate('Edit')]) ?></li>
                 </ul>
