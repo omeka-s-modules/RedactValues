@@ -43,7 +43,7 @@ $this->htmlElement('body')->appendAttribute('class', 'redact-values pattern brow
                     <li><?php echo $pattern->link('', 'edit', ['class' => 'fa fa-pencil-alt', 'title' => $this->translate('Edit')]) ?></li>
                 </ul>
             </td>
-            <td><?php echo $owner ? $owner->link($owner->name()) : $this->translate('[n/a]'); ?></td>
+            <td><?php echo $owner ? $owner->link($owner->name()) : $this->translate('[no owner]'); ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

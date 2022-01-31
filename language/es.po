@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-28 13:27-0500\n"
+"POT-Creation-Date: 2022-01-31 09:46-0500\n"
 "PO-Revision-Date: 2022-01-26 02:01+0000\n"
 "Last-Translator: Alfonso Montejo <almontejor@gmail.com>, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
@@ -49,11 +49,6 @@ msgstr ""
 msgid "Pattern"
 msgstr "Patrón"
 
-#: view/redact-values/admin/pattern/browse.phtml:46
-#: view/redact-values/admin/redaction/browse.phtml:53
-msgid "[n/a]"
-msgstr ""
-
 #: view/redact-values/admin/pattern/browse.phtml:59
 #, php-format
 msgid "No patterns found. %s"
@@ -82,6 +77,10 @@ msgstr ""
 
 #: view/redact-values/admin/redaction/browse.phtml:30
 msgid "Redaction"
+msgstr ""
+
+#: view/redact-values/admin/redaction/browse.phtml:53
+msgid "[n/a]"
 msgstr ""
 
 #: view/redact-values/admin/redaction/browse.phtml:66
@@ -117,16 +116,27 @@ msgstr ""
 msgid "Invalid pattern format passed in request."
 msgstr ""
 
-#: src/Form/PatternForm.php:16
+#: src/Form/PatternForm.php:17
 msgid "Enter the label of this pattern."
 msgstr ""
 
-#: src/Form/PatternForm.php:28
+#: src/Form/PatternForm.php:29
 msgid ""
 "Enter the regular expression pattern that identifies the sequence of "
-"characters that will be redacted. For information on regular expressions, "
-"see <a href=\"https://www.regular-expressions.info/\" "
-"target=\"_blank\">https://www.regular-expressions.info/</a>"
+"characters that will be redacted. You must enclose the pattern with <a "
+"href=\"https://www.php.net/manual/en/regexp.reference.delimiters.php\" "
+"target=\"_blank\">delimiters</a>. You may use <a "
+"href=\"https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php\" "
+"target=\"_blank\">modifiers</a>.<br><br>For more information on regular "
+"expressions, see <a href=\"https://www.regular-expressions.info/\" "
+"target=\"_blank\">Regular-Expressions.info</a> and <a "
+"href=\"https://www.php.net/manual/en/pcre.pattern.php\" "
+"target=\"_blank\">PCRE Patterns</a>. To validate your pattern, try <a "
+"href=\"https://regexr.com/\" target=\"_blank\">RegExr</a>."
+msgstr ""
+
+#: src/Form/PatternForm.php:41
+msgid "Invalid pattern. Are you sure you've included delimiters?"
 msgstr ""
 
 #: src/Form/RedactionForm.php:17

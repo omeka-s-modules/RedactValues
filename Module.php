@@ -39,17 +39,17 @@ SQL;
             [
                 // @see http://www.regular-expressions.info/email.html
                 'label' => 'Email',
-                'pattern' => '\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b',
+                'pattern' => '<\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b>',
             ],
             [
                 // @see http://stackoverflow.com/questions/833469/regular-expression-for-url
                 'label' => 'URL',
-                'pattern' => '\b((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)\b',
+                'pattern' => '<\b((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)\b>',
             ],
             [
                 // @see http://stackoverflow.com/questions/106179/regular-expression-to-match-hostname-or-ip-address
                 'label' => 'IP Address',
-                'pattern' => '\b(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\b',
+                'pattern' => '<\b(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\b>',
             ],
         ];
         $statement = $conn->prepare('INSERT INTO redact_values_pattern (label, pattern, created) VALUES (:label, :pattern, NOW())');
@@ -142,11 +142,7 @@ SQL;
                     continue;
                 }
             }
-            $text = preg_replace(
-                sprintf('/%s/', $redaction['pattern']),
-                $redaction['replacement'],
-                $text
-            );
+            $text = preg_replace($redaction['pattern'], $redaction['replacement'], $text);
         }
         return $text;
     }
