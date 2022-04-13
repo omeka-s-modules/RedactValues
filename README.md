@@ -4,7 +4,7 @@ An [Omeka S](https://omeka.org/s/) module for redacting property values.
 
 # Copyright
 
-Omeka S Item Importer is Copyright © 2021-present Corporation for Digital Scholarship, Vienna, Virginia, USA http://digitalscholar.org
+Redact Values is Copyright © 2021-present Corporation for Digital Scholarship, Vienna, Virginia, USA http://digitalscholar.org
 
 The Corporation for Digital Scholarship distributes the Omeka source code
 under the GNU General Public License, version 3 (GPLv3). The full text
