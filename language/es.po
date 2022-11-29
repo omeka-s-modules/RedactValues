@@ -5,21 +5,22 @@
 # 
 # Translators:
 # Alfonso Montejo <almontejor@gmail.com>, 2022
+# Darío Hereñú, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-13 12:16-0400\n"
+"POT-Creation-Date: 2022-11-29 12:32-0500\n"
 "PO-Revision-Date: 2022-01-26 02:01+0000\n"
-"Last-Translator: Alfonso Montejo <almontejor@gmail.com>, 2022\n"
+"Last-Translator: Darío Hereñú, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: view/redact-values/admin/pattern/browse.phtml:5
 msgid "Browse patterns"
@@ -37,12 +38,12 @@ msgstr ""
 #: view/redact-values/admin/pattern/browse.phtml:8
 #: view/redact-values/admin/pattern/form.phtml:13
 msgid "Add pattern"
-msgstr ""
+msgstr "Añadir patrón"
 
 #: view/redact-values/admin/pattern/browse.phtml:15
 #: view/redact-values/admin/redaction/browse.phtml:15
 msgid "Date created"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: view/redact-values/admin/pattern/browse.phtml:30
 #: view/redact-values/admin/redaction/browse.phtml:33
@@ -64,7 +65,7 @@ msgstr ""
 
 #: view/redact-values/admin/pattern/form.phtml:30
 msgid "pattern"
-msgstr ""
+msgstr "patrón"
 
 #: view/redact-values/admin/redaction/browse.phtml:5
 msgid "Browse redactions"
@@ -77,11 +78,11 @@ msgstr ""
 
 #: view/redact-values/admin/redaction/browse.phtml:30
 msgid "Redaction"
-msgstr ""
+msgstr "Redacción"
 
 #: view/redact-values/admin/redaction/browse.phtml:53
 msgid "[n/a]"
-msgstr ""
+msgstr "[n/a]"
 
 #: view/redact-values/admin/redaction/browse.phtml:66
 #, php-format
@@ -106,7 +107,7 @@ msgstr ""
 
 #: config/module.config.php:74
 msgid "Patterns"
-msgstr ""
+msgstr "Patrones"
 
 #: src/Api/Adapter/RedactValuesRedactionAdapter.php:37
 msgid "Invalid property format passed in request."
@@ -163,11 +164,11 @@ msgstr "Seleccionar una propiedad..."
 
 #: src/Form/RedactionForm.php:73
 msgid "Select the pattern to use when redacting text."
-msgstr ""
+msgstr "Seleccionar un patrón a usar cuando se redacta texto:"
 
 #: src/Form/RedactionForm.php:86
 msgid "Select a pattern…"
-msgstr ""
+msgstr "Seleccionar un patrón..."
 
 #: src/Form/RedactionForm.php:93
 msgid "Replacement"
@@ -179,7 +180,7 @@ msgstr "Introducir el texto que se usará para reemplazar el texto redactado."
 
 #: src/Form/RedactionForm.php:107
 msgid "Allow roles"
-msgstr ""
+msgstr "Permitir roles"
 
 #: src/Form/RedactionForm.php:108
 msgid ""
@@ -187,14 +188,17 @@ msgid ""
 "user with permission to update a resource can automatically view its "
 "redacted text."
 msgstr ""
+"Autorizar a los perfiles con los siguientes roles para ver el texto "
+"redactado. Debe tenerse en cuenta que cualquier usuario con permisos para "
+"actualizar un recurso puede automáticamente ver el texto redactado."
 
 #: src/Controller/Admin/PatternController.php:35
 msgid "Pattern successfully added."
-msgstr ""
+msgstr "Patrón añadido de manera exitosa:"
 
 #: src/Controller/Admin/PatternController.php:87
 msgid "Pattern successfully deleted."
-msgstr ""
+msgstr "Página eliminado con éxito."
 
 #: src/Controller/Admin/RedactionController.php:37
 msgid "Redaction successfully added."
